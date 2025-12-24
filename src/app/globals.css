@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+:root {
+  --mt-bg: #050705;
+  --mt-ink: #e7ebe2;
+  --mt-muted: rgba(231, 235, 226, 0.72);
+  --mt-od: #8ea27a; /* OD green */
+  --mt-od-2: #5d6f53;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: var(--mt-bg);
+  color: var(--mt-ink);
+}
+
+
+@utility scrollbar-hidden {
+  -ms-overflow-style: none; /* IE/Edge (legacy) */
+  scrollbar-width: none;    /* Firefox */
+
+  &::-webkit-scrollbar {
+    display: none;          /* Chrome/Safari */
+  }
+}
+
+.doto-font {
+  font-family: var(--font-doto), sans-serif;
+  font-weight: 200;
+  font-style: normal;
+}
+
+/* Subtle tactical texture (non-cheesy): faint grid + vignette */
+.mt-tactical-bg {
+  position: relative;
+  isolation: isolate;
+}
+
+.mt-tactical-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(142, 162, 122, 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(142, 162, 122, 0.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(circle at 50% 25%, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 0) 70%);
+  opacity: 0.9;
+}
+
+.mt-tactical-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(1200px 700px at 50% 20%, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.55) 55%, rgba(0, 0, 0, 0.85) 100%),
+    radial-gradient(600px 260px at 50% 100%, rgba(5, 7, 5, 0) 0%, rgba(5, 7, 5, 0.75) 70%, rgba(5, 7, 5, 0.9) 100%);
+}
+
+/* Marquee animation for the bottom gallery */
+@keyframes mt-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.mt-marquee {
+  animation: mt-marquee var(--mt-marquee-duration, 34s) linear infinite;
+}
+
+.mt-marquee-paused {
+  animation-play-state: paused;
+}
