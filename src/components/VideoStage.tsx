@@ -54,7 +54,7 @@ export function VideoStage() {
       </video>
 
       {/* Dark overlay */}
-      <div className="fixed inset-0 z-[1] bg-black/70" />
+      <div className="fixed inset-0 z-[1] bg-radial from-black/20 to-black/80" />
       <div className="fixed inset-0 z-1 bg-radial from-transparent via-transparent to-green-950/30" />
       {/* Corners */}
       <div className="fixed inset-0 z-1">

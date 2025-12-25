@@ -83,6 +83,7 @@ export function ScrollImageOverlay({
     const baseCanvasH = Math.max(vh * (heightVh / 100), vh * 4);
     const travelY = Math.max(1, baseCanvasH - vh);
 
+
     // ----- Build layout (placed within 0..travelY so it repeats cleanly) -----
     React.useEffect(() => {
         if (!vw || !vh || items.length === 0) return;
@@ -259,43 +260,55 @@ export function ScrollImageOverlay({
         };
     }, [extendByVh]);
 
+
+
     return (
         <>
             {/* Endless scroll driver */}
             <section ref={sectionRef} className="relative" style={{ height: `${totalVh}vh` }}>
                 <div className="sticky top-0 h-screen overflow-hidden no-scrollbar">
                     <motion.div style={{ y: loopY }} className="relative h-[1px] w-full will-change-transform">
-                        {tiled.map((p) => (
-                            <motion.button
-                                key={p.id}
-                                type="button"
-                                onClick={() => setOpen({ src: p.src, alt: p.alt })}
-                                className="absolute z-[999] pointer-events-auto overflow-hidden rounded-2xl border border-white/10 bg-black/20 shadow-[0_18px_60px_rgba(0,0,0,0.55)] outline-none"
-                                style={{
-  left: p.x,
-  top:
-    vw < 640 && p.lane === 3 && p.y < 140
-      ? p.y + 180
-      : p.y,
-  width: p.w,
-  height: p.h,
-}}
-                                whileHover={{ scale: 1.03, y: -6 }}
-                                transition={{ type: "spring", stiffness: 260, damping: 22 }}
-                            >
-                                <Image
-                                    src={p.src}
-                                    alt={p.alt}
-                                    fill
-                                    sizes="(max-width: 768px) 60vw, 30vw"
-                                    className="object-cover"
-                                />
-                                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-black/0" />
-                                <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-150 hover:opacity-100">
-                                    <div className="absolute inset-0 ring-1 ring-emerald-400/18" />
-                                </div>
-                            </motion.button>
-                        ))}
+                        {tiled.map((p) => {
+                            const isMobile = vw < 640;
+
+                            // mobile tuning
+                            const baseYOffset = isMobile ? 490 : 0;     // fresh top breathing room
+                            const lane3Offset = isMobile ? 120 : 0;    // keep lane 3 lower
+                            const mobileScale = isMobile ? 0.82 : 1;   // reduce crowding
+
+                            const w = p.w * mobileScale;
+                            const h = p.h * mobileScale;
+
+                            return (
+                                <motion.button
+                                    key={p.id}
+                                    type="button"
+                                    onClick={() => setOpen({ src: p.src, alt: p.alt })}
+                                    className="absolute z-[999] pointer-events-auto overflow-hidden rounded-2xl border border-white/10 bg-black/20 shadow-[0_18px_60px_rgba(0,0,0,0.55)] outline-none"
+                                    style={{
+                                        left: p.x,
+                                        top: p.y + baseYOffset + (p.lane === 3 ? lane3Offset : 0),
+                                        width: w,
+                                        height: h,
+                                    }}
+                                    whileHover={{ scale: 1.03, y: -6 }}
+                                    transition={{ type: "spring", stiffness: 260, damping: 22 }}
+                                >
+                                    <Image
+                                        src={p.src}
+                                        alt={p.alt}
+                                        fill
+                                        sizes="(max-width: 768px) 60vw, 30vw"
+                                        className="object-cover"
+                                    />
+                                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-black/0" />
+                                    <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-150 hover:opacity-100">
+                                        <div className="absolute inset-0 ring-1 ring-emerald-400/18" />
+                                    </div>
+                                </motion.button>
+                            );
+                        })}
+
                     </motion.div>
                 </div>
             </section>
