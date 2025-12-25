@@ -9,18 +9,18 @@ import TypeRotate from "./TypeRotate";
 import { ScrollImageOverlay, type ScrollTelemetry } from "@/components/ScrollImageOverlay";
 
 const GALLERY = [
-  { src: "/media/gallery/01.webp", alt: "Night-vision grade lighting" },
-  { src: "/media/gallery/02.webp", alt: "Product stills, field-ready" },
-  { src: "/media/gallery/03.webp", alt: "Training day, clean composition" },
-  { src: "/media/gallery/04.webp", alt: "Brand moments in motion" },
-  { src: "/media/gallery/05.webp", alt: "Campaign visuals built to convert" },
-  { src: "/media/gallery/06.webp", alt: "Campaign visuals built to convert" },
-  { src: "/media/gallery/07.webp", alt: "Campaign visuals built to convert" },
-  { src: "/media/gallery/08.webp", alt: "Campaign visuals built to convert" },
-  { src: "/media/gallery/09.webp", alt: "Campaign visuals built to convert" },
-  { src: "/media/gallery/10.webp", alt: "Campaign visuals built to convert" },
-  { src: "/media/gallery/11.webp", alt: "Campaign visuals built to convert" },
-  { src: "/media/gallery/12.webp", alt: "Campaign visuals built to convert" },
+  { src: "/media/gallery/01.webp", alt: "Birdseye View of SWAT Member" },
+  { src: "/media/gallery/02.webp", alt: "Sig Sauer Site and Mount Exploded View" },
+  { src: "/media/gallery/03.webp", alt: "SWAT Sniper Training" },
+  { src: "/media/gallery/04.webp", alt: "Sniper Rifle" },
+  { src: "/media/gallery/05.webp", alt: "Police Training on a Rainy Night" },
+  { src: "/media/gallery/06.webp", alt: "Tactical Night Vision Training" },
+  { src: "/media/gallery/07.webp", alt: "Sig Sauer Site and Mount Exploded View" },
+  { src: "/media/gallery/08.webp", alt: "Clearing Exercises from Above" },
+  { src: "/media/gallery/09.webp", alt: "Rifle Close-up Exploded Bipod View" },
+  { src: "/media/gallery/10.webp", alt: "LEO Night Training" },
+  { src: "/media/gallery/11.webp", alt: "Tactical Helmet Product Shot" },
+  { src: "/media/gallery/12.webp", alt: "Modlite Product Shot" },
 ];
 
 export function VideoStage() {
@@ -63,28 +63,29 @@ export function VideoStage() {
         <div className="size-10 absolute bottom-5 left-5 sm:bottom-10 sm:left-10 border-l border-b border-green-300/30" />
         <div className="size-10 absolute bottom-5 right-5 sm:bottom-10 sm:right-10 border-r border-b border-green-300/30" />
       </div>
-        <RadarHUD
-          telemetry={telemetry}
-          extraLines={[
-            { label: "Location", value: "Las Vegas, NV" },
-          ]}
-        />
+      <RadarHUD
+        telemetry={telemetry}
+        extraLines={[
+          { label: "Location", value: "Las Vegas, NV" },
+        ]}
+      />
 
       {/* HERO UI: fixed + always clickable */}
-      <div className="fixed inset-0 z-50">
-          <div className="absolute bottom-10 sm:bottom-20 left-10 sm:left-20 pointer-events-auto flex items-center gap-3">
-            <TypeRotate />
-          </div>
-          <div className="absolute top-10 right-10 sm:top-20 sm:right-20 pointer-events-auto">
-            <ContactButton email="hello@modtacmedia.com" />
-          </div>
+      <div className="fixed inset-0 z-50 pointer-events-none">
+        <div className="absolute bottom-10 sm:bottom-14 left-10 sm:left-14 pointer-events-auto z-[200] flex items-center gap-3">
+          <TypeRotate />
+        </div>
 
-        <section
-          className="pointer-events-auto relative z-[99] flex h-full items-center justify-center px-4 pb-10 pt-6 sm:px-6"
-        >
-          <LogoLockup />
+        <div className="absolute top-10 right-10 sm:top-14 sm:right-14 pointer-events-auto z-[200]">
+          <ContactButton email="hello@modtacmedia.com" />
+        </div>
+
+        {/* Center lockup: let only the lockup receive clicks */}
+        <section className="relative z-[150] flex h-full items-center justify-center px-4 pb-10 pt-6 sm:px-6 pointer-events-none">
+          <div className="pointer-events-auto">
+            <LogoLockup />
+          </div>
         </section>
-
       </div>
 
       <div className="relative z-10 no-scrollbar">

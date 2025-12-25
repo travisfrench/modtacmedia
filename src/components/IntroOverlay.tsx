@@ -6,8 +6,8 @@ import { motion, useMotionValue, useReducedMotion, animate } from "framer-motion
 import { createPortal } from "react-dom";
 
 type IntroOverlayProps = {
-  logoSrc: string;      // "/media/modtac-temp-logo.png"
-  peekImageSrc: string; // "/media/gallery/02.webp"
+  logoSrc: string;
+  peekImageSrc: string;
   onDone: () => void;
   videoReady?: boolean;
   minShowMs?: number;
@@ -17,7 +17,10 @@ type IntroOverlayProps = {
 function BodyPortal({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = React.useState(false);
   React.useEffect(() => setMounted(true), []);
-  if (!mounted) return null;
+
+  // IMPORTANT: don’t return null. Render inline until mounted to avoid “site flash”.
+  if (!mounted) return <>{children}</>;
+
   return createPortal(children, document.body);
 }
 
@@ -32,26 +35,48 @@ export function IntroOverlay({
   const reduce = useReducedMotion();
   const [canExit, setCanExit] = React.useState(false);
 
-  // spotlight radius (px) we animate ourselves
-  const r = useMotionValue(reduce ? 340 : 120); // start small
+  // exit choreography
+  const [phase, setPhase] = React.useState<"show" | "fadeToBlack" | "fadeOut">("show");
+  const exitStartedRef = React.useRef(false);
 
+  const FADE_TO_BLACK_MS = reduce ? 220 : 900; // black covers image
+  const FADE_OUT_MS = reduce ? 260 : 950;      // overlay fades away
+
+  const startExit = React.useCallback(() => {
+    if (exitStartedRef.current) return;
+    exitStartedRef.current = true;
+
+    setPhase("fadeToBlack");
+    window.setTimeout(() => setPhase("fadeOut"), FADE_TO_BLACK_MS);
+    window.setTimeout(() => onDone(), FADE_TO_BLACK_MS + FADE_OUT_MS);
+  }, [FADE_OUT_MS, FADE_TO_BLACK_MS, onDone]);
+
+  // Preload peek image (since it's a CSS background-image)
   React.useEffect(() => {
-    // Ensure it feels intentional (not a loader)
+    if (!peekImageSrc) return;
+    const img = new window.Image();
+    img.decoding = "async";
+    img.src = peekImageSrc;
+  }, [peekImageSrc]);
+
+  // Ensure it feels intentional (not a loader)
+  React.useEffect(() => {
     const t = window.setTimeout(() => setCanExit(true), reduce ? 250 : minShowMs);
     return () => window.clearTimeout(t);
   }, [minShowMs, reduce]);
 
+  // hard cap so nobody gets stuck — start exit (don’t instantly onDone)
   React.useEffect(() => {
-    // hard cap so nobody gets stuck
-    const t = window.setTimeout(() => onDone(), reduce ? 600 : maxShowMs);
+    const t = window.setTimeout(() => startExit(), reduce ? 600 : maxShowMs);
     return () => window.clearTimeout(t);
-  }, [maxShowMs, reduce, onDone]);
+  }, [maxShowMs, reduce, startExit]);
 
   React.useEffect(() => {
-    if (canExit && videoReady) onDone();
-  }, [canExit, videoReady, onDone]);
+    if (canExit && videoReady) startExit();
+  }, [canExit, videoReady, startExit]);
 
-  // animate spotlight radius once on mount
+  // spotlight radius (px)
+  const r = useMotionValue(reduce ? 340 : 120);
   React.useEffect(() => {
     const controls = animate(r, reduce ? 380 : 560, {
       duration: reduce ? 0.45 : 0.9,
@@ -60,45 +85,41 @@ export function IntroOverlay({
     return () => controls.stop();
   }, [r, reduce]);
 
-  // Build mask string from radius
-  const mask = r.get(); // used only for initial render; we also subscribe below
-  const [maskStr, setMaskStr] = React.useState(() => makeMask(mask));
-
-  React.useEffect(() => {
-    return r.on("change", (val) => setMaskStr(makeMask(val)));
-  }, [r]);
+  const [maskStr, setMaskStr] = React.useState(() => makeMask(r.get()));
+  React.useEffect(() => r.on("change", (val) => setMaskStr(makeMask(val))), [r]);
 
   return (
     <BodyPortal>
       <motion.div
         className="fixed inset-0 z-[99998] overflow-hidden"
+        // keep overlay fully visible until we explicitly fade it out
         initial={{ opacity: 1 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
+        animate={{ opacity: phase === "fadeOut" ? 0 : 1 }}
+        transition={{ duration: (phase === "fadeOut" ? FADE_OUT_MS : 1) / 1000, ease: [0.2, 0.8, 0.2, 1] }}
       >
         {/* Base black */}
         <div className="absolute inset-0 bg-black" />
 
-        {/* Spotlight reveal (peek image through a growing radial mask) */}
-        <div
+        {/* Spotlight reveal */}
+        <motion.div
           className="absolute inset-0"
+          animate={{ opacity: phase === "fadeToBlack" || phase === "fadeOut" ? 0 : (reduce ? 0.65 : 0.85) }}
+          transition={{ duration: (FADE_TO_BLACK_MS / 1000) * 0.9, ease: [0.2, 0.8, 0.2, 1] }}
           style={{
             backgroundImage: `url(${peekImageSrc})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
             filter: "contrast(1.05) saturate(0.95) brightness(0.55)",
-            // Apply the mask (typed safely via style)
             WebkitMaskImage: maskStr as any,
             maskImage: maskStr as any,
             WebkitMaskRepeat: "no-repeat",
             maskRepeat: "no-repeat",
             WebkitMaskSize: "cover",
             maskSize: "cover",
-            opacity: reduce ? 0.65 : 0.85,
           }}
         />
 
-        {/* OD glow bloom behind logo */}
+        {/* OD glow bloom */}
         <motion.div
           className="absolute inset-0"
           initial={{ opacity: 0 }}
@@ -111,7 +132,7 @@ export function IntroOverlay({
           }}
         />
 
-        {/* Logo reveal */}
+        {/* Logo */}
         <div className="absolute inset-0 flex items-center justify-center">
           <motion.div
             initial={{
@@ -136,7 +157,6 @@ export function IntroOverlay({
               className="h-[64px] w-auto sm:h-[74px] opacity-90"
             />
 
-            {/* subtle etched shimmer */}
             {!reduce ? (
               <motion.div
                 className="pointer-events-none absolute inset-0"
@@ -153,11 +173,12 @@ export function IntroOverlay({
           </motion.div>
         </div>
 
-        {/* Optional: soft fade at end (keeps it feeling intentional) */}
+        {/* End scrim: slow fade to black, then wrapper fades out revealing site */}
         <motion.div
           className="absolute inset-0 bg-black"
           initial={{ opacity: 0 }}
-          animate={{ opacity: 0 }}
+          animate={{ opacity: phase === "fadeToBlack" || phase === "fadeOut" ? 1 : 0 }}
+          transition={{ duration: FADE_TO_BLACK_MS / 1000, ease: [0.2, 0.8, 0.2, 1] }}
         />
       </motion.div>
     </BodyPortal>
@@ -165,10 +186,8 @@ export function IntroOverlay({
 }
 
 function makeMask(radiusPx: number) {
-  // Slightly above center so it feels like it “finds” the logo first
   const r = Math.max(80, Math.min(900, radiusPx));
   const inner = Math.round(r * 0.52);
   const outer = Math.round(r * 0.78);
-
   return `radial-gradient(circle ${r}px at 50% 46%, rgba(0,0,0,1) 0%, rgba(0,0,0,1) ${inner}px, rgba(0,0,0,0) ${outer}px)`;
 }

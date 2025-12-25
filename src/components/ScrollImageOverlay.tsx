@@ -271,7 +271,15 @@ export function ScrollImageOverlay({
                                 type="button"
                                 onClick={() => setOpen({ src: p.src, alt: p.alt })}
                                 className="absolute z-[999] pointer-events-auto overflow-hidden rounded-2xl border border-white/10 bg-black/20 shadow-[0_18px_60px_rgba(0,0,0,0.55)] outline-none"
-                                style={{ left: p.x, top: p.y, width: p.w, height: p.h }}
+                                style={{
+  left: p.x,
+  top:
+    vw < 640 && p.lane === 3 && p.y < 140
+      ? p.y + 180
+      : p.y,
+  width: p.w,
+  height: p.h,
+}}
                                 whileHover={{ scale: 1.03, y: -6 }}
                                 transition={{ type: "spring", stiffness: 260, damping: 22 }}
                             >
