@@ -16,7 +16,7 @@ export function RadarHUD({
     const loops = telemetry ? telemetry.loops : 0;
 
     return (
-        <div className="pointer-events-none fixed left-10 sm:left-15 top-10 sm:top-15 z-[60]">
+        <div className="pointer-events-none fixed left-10 sm:left-14 top-8 sm:top-13 z-[60]">
             <div className="max-w-[230px]">
                 {/* subtle “radar glass” lines */}
 
@@ -45,7 +45,7 @@ export function RadarHUD({
 
                     {/* tiny blinking cursor accent */}
                     <div className="mt-2 h-[10px]">
-                        <span className="inline-block h-[10px] w-[6px] animate-pulse rounded-sm bg-[rgba(95,128,76,0.55)]" />
+                        <span className="inline-block h-[12px] w-[4px] animate-pulse bg-green-300/50" />
                     </div>
                 </div>
             </div>

@@ -72,12 +72,12 @@ export function VideoStage() {
 
       {/* HERO UI: fixed + always clickable */}
       <div className="fixed inset-0 z-50 pointer-events-none">
-        <div className="absolute bottom-10 sm:bottom-14 left-10 sm:left-14 pointer-events-auto z-[200] flex items-center gap-3">
+        <div className="absolute bottom-8 sm:bottom-12 left-10 sm:left-14 pointer-events-auto z-[200] flex items-center gap-3">
           <TypeRotate />
         </div>
 
-        <div className="absolute top-10 right-10 sm:top-14 sm:right-14 pointer-events-auto z-[200]">
-          <ContactButton email="hello@modtacmedia.com" />
+        <div className="absolute top-8 right-10 sm:top-12 sm:right-14 pointer-events-auto z-[200]">
+          <ContactButton email="derrick@modtac.media" />
         </div>
 
         {/* Center lockup: let only the lockup receive clicks */}
