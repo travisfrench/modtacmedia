@@ -100,18 +100,15 @@ export default function TypeRotate({
 
   return (
     <div className={["flex items-center gap-3", className].join(" ")}>
-      <div className="doto-font flex items-center justify-center">
+      <div className="flex items-center justify-center">
         <span
           className={[
-            "text-sm text-white/80",
+            "text-base text-green-800/80",
             "tracking-[0.22em] uppercase",
-            "px-3 py-2 rounded-lg",
-            "border border-dotted border-white/30 bg-black/25 backdrop-blur",
-            "hover:border-white/50",
           ].join(" ")}
           aria-live="polite"
         >
-          <span className="text-white/90">{text}</span>
+          <span className="text-green-300/40">{text}</span>
           <span
             className={[
               "inline-block align-[-0.08em] ml-1",

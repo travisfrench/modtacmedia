@@ -4,7 +4,7 @@ export function ContactButton({ email }: { email: string }) {
   return (
     <Link
       href={`mailto:${email}`}
-      className="group inline-flex items-center gap-2 rounded-lg border border-dotted border-white/10 bg-black/25 backdrop-blur px-4 py-2 text-xs font-medium tracking-[0.22em] text-[var(--mt-ink)] backdrop-blur transition hover:border-[rgba(142,162,122,0.7)] hover:bg-black/55 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(142,162,122,0.55)]"
+      className="group inline-flex items-center gap-2 text-xs font-medium tracking-[0.22em] text-[var(--mt-ink)] backdrop-blur transition hover:border-[rgba(142,162,122,0.7)] hover:bg-black/55 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(142,162,122,0.55)]"
       aria-label={`Email ${email}`}
     >
       <span className="relative inline-flex h-2 w-2">
@@ -12,9 +12,6 @@ export function ContactButton({ email }: { email: string }) {
         <span className="relative rounded-full bg-[var(--mt-od)]" />
       </span>
       <span className="text-[10px] sm:text-xs">CONTACT</span>
-      <span className="hidden sm:inline text-[10px] tracking-normal text-[color:var(--mt-muted)] group-hover:text-[color:var(--mt-ink)]">
-        {email}
-      </span>
     </Link>
   );
 }

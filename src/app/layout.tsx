@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Doto } from "next/font/google";
+import { CursorIconLayer } from "@/components/CursorIconLayer";
 
 const doto = Doto({
   subsets: ["latin"],
@@ -39,6 +40,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${doto.variable} antialiased bg-black text-white scrollbar-hidden`}
       >
         {children}
+        <CursorIconLayer />
       </body>
     </html>
   );
