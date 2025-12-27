@@ -56,8 +56,8 @@ export function RadarHUD({
 function Line({ label, value }: { label: string; value: React.ReactNode }) {
     return (
         <div className="flex items-baseline justify-between gap-3">
-            <span className="text-green-300/35">{label}</span>
-            <span className="text-green-300/55">{value}</span>
+            <span className="text-white/35">{label}</span>
+            <span className="text-white/55">{value}</span>
         </div>
     );
 }

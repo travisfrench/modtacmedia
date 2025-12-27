@@ -12,12 +12,12 @@ export function LogoLockup() {
             alt="modtac media logo"
             width={300}
             height={200}
-            className="h-[70px] w-auto mb-4"
+            className="h-[70px] w-auto mb-3"
             />
         </div>
       </div>
 
-      <h1 className="text-balance text-xl tracking-tight text-[var(--mt-ink)] sm:text-xl">
+      <h1 className="text-balance text-xl capitalize tracking-tight text-[var(--mt-ink)] sm:text-xl">
         Tactical marketing for serious brands
       </h1>
     </div>

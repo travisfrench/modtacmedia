@@ -18,7 +18,6 @@ export default function TypeRotate({
     "Still Photography",
     "Campaign Strategy",
     "Marketing Consulting",
-    "Paid Social",
     "Digital Assets",
   ],
   className = "",
@@ -108,7 +107,7 @@ export default function TypeRotate({
           ].join(" ")}
           aria-live="polite"
         >
-          <span className="text-green-300/40">{text}</span>
+          <span className="text-white/40">{text}</span>
           <span
             className={[
               "inline-block align-[-0.08em] ml-1",

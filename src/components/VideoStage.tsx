@@ -9,18 +9,18 @@ import TypeRotate from "./TypeRotate";
 import { ScrollImageOverlay, type ScrollTelemetry } from "@/components/ScrollImageOverlay";
 
 const GALLERY = [
-  { src: "/media/gallery/01.webp", alt: "Birdseye View of SWAT Member" },
-  { src: "/media/gallery/02.webp", alt: "Sig Sauer Site and Mount Exploded View" },
-  { src: "/media/gallery/03.webp", alt: "SWAT Sniper Training" },
-  { src: "/media/gallery/04.webp", alt: "Sniper Rifle" },
-  { src: "/media/gallery/05.webp", alt: "Police Training on a Rainy Night" },
-  { src: "/media/gallery/06.webp", alt: "Tactical Night Vision Training" },
-  { src: "/media/gallery/07.webp", alt: "Sig Sauer Site and Mount Exploded View" },
-  { src: "/media/gallery/08.webp", alt: "Clearing Exercises from Above" },
-  { src: "/media/gallery/09.webp", alt: "Rifle Close-up Exploded Bipod View" },
-  { src: "/media/gallery/10.webp", alt: "LEO Night Training" },
-  { src: "/media/gallery/11.webp", alt: "Tactical Helmet Product Shot" },
-  { src: "/media/gallery/12.webp", alt: "Modlite Product Shot" },
+  { src: "/media/gallery/01.webp", alt: "Production Work" },
+  { src: "/media/gallery/02.webp", alt: "Product Shot" },
+  { src: "/media/gallery/03.webp", alt: "Production Work" },
+  { src: "/media/gallery/04.webp", alt: "Product Shot" },
+  { src: "/media/gallery/05.webp", alt: "Production Work" },
+  { src: "/media/gallery/06.webp", alt: "Production Work" },
+  { src: "/media/gallery/07.webp", alt: "Product Shot" },
+  { src: "/media/gallery/08.webp", alt: "Production Work" },
+  { src: "/media/gallery/09.webp", alt: "Product Shot" },
+  { src: "/media/gallery/10.webp", alt: "Production Work" },
+  { src: "/media/gallery/11.webp", alt: "Product Shot" },
+  { src: "/media/gallery/12.webp", alt: "Product Shot" },
 ];
 
 export function VideoStage() {
@@ -47,7 +47,7 @@ export function VideoStage() {
         loop
         playsInline
         preload="metadata"
-        poster="/media/gallery/02.webp"
+        poster="/media/gallery/10.webp"
       >
         <source src="/media/MTMWebLandscape.mp4" type="video/mp4" className="hidden sm:block" />
         <source src="/media/MTMWebVert.mp4" type="video/mp4" className="sm:hidden" />
@@ -58,10 +58,10 @@ export function VideoStage() {
       <div className="fixed inset-0 z-1 bg-radial from-transparent via-transparent to-green-950/30" />
       {/* Corners */}
       <div className="fixed inset-0 z-1">
-        <div className="size-10 absolute top-5 left-5 sm:top-10 sm:left-10 border-l border-t border-green-300/30" />
-        <div className="size-10 absolute top-5 right-5 sm:top-10 sm:right-10 border-r border-t border-green-300/30" />
-        <div className="size-10 absolute bottom-5 left-5 sm:bottom-10 sm:left-10 border-l border-b border-green-300/30" />
-        <div className="size-10 absolute bottom-5 right-5 sm:bottom-10 sm:right-10 border-r border-b border-green-300/30" />
+        <div className="size-10 absolute top-5 left-5 sm:top-10 sm:left-10 border-l border-t border-white/30" />
+        <div className="size-10 absolute top-5 right-5 sm:top-10 sm:right-10 border-r border-t border-white/30" />
+        <div className="size-10 absolute bottom-5 left-5 sm:bottom-10 sm:left-10 border-l border-b border-white/30" />
+        <div className="size-10 absolute bottom-5 right-5 sm:bottom-10 sm:right-10 border-r border-b border-white/30" />
       </div>
       <RadarHUD
         telemetry={telemetry}
