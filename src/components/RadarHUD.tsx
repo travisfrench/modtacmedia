@@ -21,7 +21,7 @@ export function RadarHUD({
                 {/* subtle “radar glass” lines */}
 
                 <div className="relative">
-                    <div className="space-y-1 text-[12px] tracking-[0.14em] text-green-700/80">
+                    <div className="space-y-1 text-[12px] tracking-[0.14em] text-white/80">
                         <Line
                             label="Scroll Distance"
                             value={`${telemetry ? telemetry.scrolledVh.toFixed(0) : "0"}vh`}
@@ -45,7 +45,7 @@ export function RadarHUD({
 
                     {/* tiny blinking cursor accent */}
                     <div className="mt-2 h-[10px]">
-                        <span className="inline-block h-[12px] w-[4px] animate-pulse bg-green-300/50" />
+                        <span className="inline-block h-[12px] w-[4px] animate-pulse bg-white/50" />
                     </div>
                 </div>
             </div>

@@ -102,7 +102,7 @@ export default function TypeRotate({
       <div className="flex items-center justify-center">
         <span
           className={[
-            "sm:text-base text-lg text-green-800/80",
+            "sm:text-base text-lg text-white/80",
             "tracking-[0.22em] uppercase text-nowrap truncate",
           ].join(" ")}
           aria-live="polite"
